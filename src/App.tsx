@@ -4,6 +4,7 @@ import { FRUITS, type Fruit } from "./data";
 import { saveLocalBooking } from "./lib/localBookings";
 import AdminPanel from "./components/AdminPanel";
 import Gallery from "./components/Gallery";
+import brandLogo from "../public/media/images/IMG-20261113-WA0009.jpg.jpeg";
 
 const PHONE_RE = /^\+?[0-9][0-9\s-]{9,}$/;
 const TIME_SLOTS = ["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", "07:30 PM"];
@@ -38,11 +39,7 @@ function Header({
     <header className={`site-header${navOpen ? " is-open" : ""}`} id="siteHeader">
       <div className="container header-top">
         <a className="brand" href="#home" aria-label="MK Fruits Panipat — home">
-          <svg className="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <circle cx="20" cy="20" r="19" fill="#FF6B35" />
-            <path d="M20 6c6 2.5 9.5 7.6 9.5 13.5a9.5 9.5 0 0 1-19 0c0-5.9 3.5-11 9.5-13.5Z" fill="#10B981" />
-            <path d="M20 9v13" stroke="#141416" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <img className="brand-mark" src={brandLogo} alt="" aria-hidden="true" />
           <span className="brand-text">
             MK Fruits <span className="brand-accent">Panipat</span>
           </span>

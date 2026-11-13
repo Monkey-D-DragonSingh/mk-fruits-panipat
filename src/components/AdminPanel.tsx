@@ -284,36 +284,38 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
                 <label htmlFor="ownerPassword">
                   Owner Password <span className="optional">(only the owner should open this panel)</span>
                 </label>
-                <input
-                  className="input"
-                  type={pwVisible ? "text" : "password"}
-                  id="ownerPassword"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter owner password"
-                  autoComplete="off"
-                />
-                <button
-                  className="password-toggle"
-                  id="ownerPasswordToggle"
-                  type="button"
-                  aria-label={pwVisible ? "Hide password" : "Show password"}
-                  aria-pressed={pwVisible}
-                  onClick={() => setPwVisible((v) => !v)}
-                >
-                  {pwVisible ? (
-                    <svg className="pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5s8.577 2.911 9.963 7.178c.07.207.07.431 0 .639a1.012 1.012 0 010-.639C20.577 7.51 16.64 4.5 12 4.5 7.36 4.5 3.423 7.51 2.036 12.322z" />
-                      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  ) : (
-                    <svg className="pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228C3.28 8.2 1 10.58 1 13.5a10.523 10.523 0 0 0 2 9.977c.338.072.678.194.997.291M6.228 6.228 3 3m3.228 3.228 3.65 3.65m2.83-2.83 3.65-3.65m0 0a3 3 0 1 0 5.001-5.001M3 3l9.228 9.228" />
-                      <line x1="8" y1="8" x2="16" y2="16" />
-                      <line x1="16" y1="8" x2="8" y2="16" />
-                    </svg>
-                  )}
-                </button>
+                <div className="input-with-toggle">
+                  <input
+                    className="input"
+                    type={pwVisible ? "text" : "password"}
+                    id="ownerPassword"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter owner password"
+                    autoComplete="off"
+                  />
+                  <button
+                    className="password-toggle"
+                    id="ownerPasswordToggle"
+                    type="button"
+                    aria-label={pwVisible ? "Hide password" : "Show password"}
+                    aria-pressed={pwVisible}
+                    onClick={() => setPwVisible((v) => !v)}
+                  >
+                    {pwVisible ? (
+                      <svg className="pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5s8.577 2.911 9.963 7.178c.07.207.07.431 0 .639a1.012 1.012 0 010-.639C20.577 7.51 16.64 4.5 12 4.5 7.36 4.5 3.423 7.51 2.036 12.322z" />
+                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    ) : (
+                      <svg className="pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228C3.28 8.2 1 10.58 1 13.5a10.523 10.523 0 0 0 2 9.977c.338.072.678.194.997.291M6.228 6.228 3 3m3.228 3.228 3.65 3.65m2.83-2.83 3.65-3.65m0 0a3 3 0 1 0 5.001-5.001M3 3l9.228 9.228" />
+                        <line x1="8" y1="8" x2="16" y2="16" />
+                        <line x1="16" y1="8" x2="8" y2="16" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 <p className="field-error" id="ownerGateError">
                   {gateError}
                 </p>

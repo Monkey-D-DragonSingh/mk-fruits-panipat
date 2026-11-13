@@ -49,6 +49,15 @@ export async function loginOwner(password: string): Promise<{ ok: boolean; token
   }
 }
 
+export async function logoutOwner(token: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/owner/logout`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch {}
+}
+
 export async function getBookings(token: string): Promise<{ ok: boolean; data?: any[]; error?: string }> {
   try {
     const res = await fetch(`${API_BASE}/api/bookings`, { headers: { Authorization: `Bearer ${token}` } });
@@ -83,5 +92,30 @@ export async function deleteBooking(token: string, id: string): Promise<{ ok: bo
     return { ok: true };
   } catch (err) {
     return { ok: false, error: "Backend not reachable" };
+  }
+}
+
+export async function exportBookings(token: string, format: "json" | "csv"): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/api/bookings/export?format=${format}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) {
+      const json = await res.json().catch(() => null);
+      return { ok: false, error: (json && json.error) || "Export failed" };
+    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const ts = new Date().toISOString().replace(/[:.]/g, "-");
+    a.href = url;
+    a.download = `mkfp-bookings-${ts}.${format}`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: "Export failed" };
   }
 }

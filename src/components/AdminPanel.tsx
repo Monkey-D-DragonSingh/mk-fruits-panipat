@@ -1,14 +1,24 @@
 import { useEffect, useState, type FormEvent } from "react";
 import {
   deleteBooking,
+  exportBookings,
   getBookings,
   loginOwner,
+  logoutOwner,
   updateBookingStatus,
   type Booking,
 } from "../lib/api";
 import { deleteLocalBooking, getLocalBookings, updateLocalBooking } from "../lib/localBookings";
 
 const TOKEN_KEY = "mkfp_owner_token";
+
+function toWaNumber(phone: string) {
+  const digits = String(phone || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.length === 10) return `91${digits}`;
+  if (digits.length === 12 && digits.startsWith("91")) return digits;
+  return digits;
+}
 
 function AdminBookingCard({
   b,
@@ -21,6 +31,11 @@ function AdminBookingCard({
 }) {
   const status = b.status || "pending";
   const id = String(b.id || b.ref || "");
+  const tel = `tel:${String(b.phone || "").replace(/\s/g, "")}`;
+  const waNum = toWaNumber(b.phone || "");
+  const waText = encodeURIComponent(`Hi ${b.name}, regarding your MK Fruits wedding fruit stall booking ${b.ref || id} on ${b.date} (${b.time}) for ${b.guests} guests.`);
+  const waLink = waNum ? `https://wa.me/${waNum}?text=${waText}` : "";
+
   return (
     <article className="admin-card">
       <div className="admin-card-top">
@@ -32,11 +47,12 @@ function AdminBookingCard({
           <strong>Name:</strong> {b.name}
         </p>
         <p>
-          <strong>Phone:</strong> {b.phone}
+          <strong>Phone:</strong>{" "}
+          <a href={tel} style={{ color: "var(--color-primary)" }}>{b.phone}</a>
         </p>
         {b.email ? (
           <p>
-            <strong>Email:</strong> {b.email}
+            <strong>Email:</strong> <a href={`mailto:${b.email}`} style={{ color: "var(--color-primary)" }}>{b.email}</a>
           </p>
         ) : null}
         <p>
@@ -65,6 +81,8 @@ function AdminBookingCard({
         ) : null}
       </div>
       <div className="admin-actions-row">
+        <a className="btn btn-secondary btn-sm" href={tel}>Call</a>
+        {waLink ? <a className="btn btn-secondary btn-sm" href={waLink} target="_blank" rel="noreferrer">WhatsApp</a> : null}
         {status === "pending" ? (
           <button className="btn btn-secondary btn-sm" type="button" onClick={() => onStatus(id, "confirmed")}>
             Mark Confirmed
@@ -76,7 +94,7 @@ function AdminBookingCard({
           </button>
         ) : null}
         <button className="btn btn-secondary btn-sm" type="button" onClick={() => onStatus(id, "cancelled")}>
-          Cancel Booking
+          Cancel
         </button>
         <button className="btn btn-primary btn-sm" type="button" onClick={() => onDelete(id)}>
           Delete
@@ -215,10 +233,17 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
     }
   }
 
-  function handleLogout() {
+  async function handleLogout() {
+    if (token) await logoutOwner(token);
     setToken(null);
     setBookings([]);
     setActionError("");
+  }
+
+  async function handleExport(format: "json" | "csv") {
+    if (!token) return;
+    const res = await exportBookings(token, format);
+    if (!res.ok) setActionError(res.error || "Export failed");
   }
 
   const q = search.trim().toLowerCase();
@@ -247,7 +272,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
             <p className="eyebrow">Owner Panel</p>
             <h2>Bookings Dashboard</h2>
           </div>
-          <button className="btn btn-secondary btn-sm" type="button" onClick={() => { try { sessionStorage.removeItem(TOKEN_KEY); } catch {} setToken(null); onClose(); }} aria-label="Close owner panel">
+          <button className="btn btn-secondary btn-sm" type="button" onClick={async () => { if (token) await logoutOwner(token); try { sessionStorage.removeItem(TOKEN_KEY); } catch {} setToken(null); onClose(); }} aria-label="Close owner panel">
             Close
           </button>
         </div>
@@ -319,6 +344,12 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
             <div className="admin-actions">
               <button className="btn btn-secondary" id="adminRefresh" type="button" onClick={handleRefresh}>
                 {loading ? "Refreshing…" : "Refresh Bookings"}
+              </button>
+              <button className="btn btn-secondary" type="button" onClick={() => handleExport("csv")}>
+                Export CSV
+              </button>
+              <button className="btn btn-secondary" type="button" onClick={() => handleExport("json")}>
+                Export JSON
               </button>
               <button className="btn btn-secondary" id="adminLogout" type="button" onClick={handleLogout}>
                 Owner Logout

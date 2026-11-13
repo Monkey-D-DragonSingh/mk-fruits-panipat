@@ -7,7 +7,7 @@ function nameFromPath(p: string) {
   return parts[parts.length - 1] || p;
 }
 
-export default function Gallery() {
+export default function GalleryPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const items = useMemo(() => {
     const imageMods = import.meta.glob("../../public/media/images/*.{jpg,jpeg,png,webp,gif,avif,JPG,JPEG,PNG,WEBP,GIF,AVIF}", { eager: true, query: "?url", import: "default" }) as Record<string, string>;
     const videoMods = import.meta.glob("../../public/media/videos/*.{mp4,webm,mov,MP4,WEBM,MOV}", { eager: true, query: "?url", import: "default" }) as Record<string, string>;
@@ -30,16 +30,27 @@ export default function Gallery() {
     };
   }, []);
 
+  if (!open) return null;
+
   const hasAny = items.images.length > 0 || items.videos.length > 0;
 
   return (
-    <section className="section" id="gallery">
-      <div className="container">
-        <header className="section-head">
-          <p className="eyebrow">Gallery</p>
-          <h2>Photos & Videos</h2>
-          <p className="section-sub">Hamare wedding fruit stall ki photos aur videos yahan dekhein.</p>
-        </header>
+    <div className="admin-overlay" role="dialog" aria-modal="true" aria-label="Photos and videos gallery">
+      <div className="admin-overlay-backdrop" onClick={onClose} />
+      <div className="admin-overlay-panel gallery-panel">
+        <div className="admin-overlay-head">
+          <div>
+            <p className="eyebrow">Gallery</p>
+            <h2>Photos & Videos</h2>
+          </div>
+          <button className="btn btn-secondary btn-sm" type="button" onClick={onClose} aria-label="Close gallery">
+            Close
+          </button>
+        </div>
+
+        <p className="section-sub" style={{ textAlign: "left", maxWidth: "none", marginBottom: 24 }}>
+          Hamare wedding fruit stall ki photos aur videos yahan dekhein.
+        </p>
 
         {!hasAny ? (
           <div className="admin-empty" style={{ maxWidth: 720, margin: "0 auto" }}>
@@ -51,7 +62,7 @@ export default function Gallery() {
 
         {items.images.length > 0 ? (
           <div style={{ marginBottom: items.videos.length ? 40 : 0 }}>
-            <h3 style={{ marginBottom: 16, textAlign: "center" }}>Images</h3>
+            <h3 style={{ marginBottom: 16 }}>Images</h3>
             <div className="gallery-grid">
               {items.images.map((item) => (
                 <figure className="gallery-card" key={item.src}>
@@ -64,7 +75,7 @@ export default function Gallery() {
 
         {items.videos.length > 0 ? (
           <div>
-            <h3 style={{ marginBottom: 16, textAlign: "center" }}>Videos</h3>
+            <h3 style={{ marginBottom: 16 }}>Videos</h3>
             <div className="gallery-grid">
               {items.videos.map((item) => (
                 <figure className="gallery-card" key={item.src}>
@@ -75,6 +86,6 @@ export default function Gallery() {
           </div>
         ) : null}
       </div>
-    </section>
+    </div>
   );
 }

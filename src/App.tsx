@@ -3,7 +3,7 @@ import { submitBooking } from "./lib/api";
 import { FRUITS, type Fruit } from "./data";
 import { saveLocalBooking } from "./lib/localBookings";
 import AdminPanel from "./components/AdminPanel";
-import Gallery from "./components/Gallery";
+import GalleryPanel from "./components/GalleryPanel";
 
 const PHONE_RE = /^\+?[0-9][0-9\s-]{9,}$/;
 const TIME_SLOTS = ["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", "07:30 PM"];
@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { href: "#home", label: "Home" },
   { href: "#why", label: "Why Us" },
   { href: "#fruits", label: "Fruits" },
-  { href: "#gallery", label: "Gallery" },
   { href: "#weddings", label: "Weddings" },
   { href: "#book", label: "Book Stall" },
 ];
@@ -27,11 +26,13 @@ function Header({
   navOpen,
   onToggleNav,
   onNavigate,
+  onOpenGallery,
   onOpenOwner,
 }: {
   navOpen: boolean;
   onToggleNav: () => void;
   onNavigate: () => void;
+  onOpenGallery: () => void;
   onOpenOwner: () => void;
 }) {
   return (
@@ -49,6 +50,9 @@ function Header({
         </a>
         <div className="header-actions">
           <a href="#book" className="btn btn-primary btn-book">Book Stall</a>
+          <button className="btn btn-secondary btn-sm" type="button" onClick={onOpenGallery} aria-label="Photos and videos gallery">
+            Gallery
+          </button>
           <button className="btn btn-secondary btn-sm owner-trigger" type="button" onClick={onOpenOwner} aria-label="Owner Panel">
             Owner
           </button>
@@ -581,7 +585,6 @@ function Footer() {
           <h3>Explore</h3>
           <a href="#home">Home</a>
           <a href="#fruits">Included Fruits</a>
-          <a href="#gallery">Gallery</a>
           <a href="#book">Book Stall</a>
         </nav>
         <div className="footer-contact">
@@ -609,6 +612,7 @@ function Footer() {
 export default function App() {
   const [navOpen, setNavOpen] = useState(false);
   const [ownerOpen, setOwnerOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   return (
     <>
@@ -616,6 +620,10 @@ export default function App() {
         navOpen={navOpen}
         onToggleNav={() => setNavOpen((v) => !v)}
         onNavigate={() => setNavOpen(false)}
+        onOpenGallery={() => {
+          setNavOpen(false);
+          setGalleryOpen(true);
+        }}
         onOpenOwner={() => {
           setNavOpen(false);
           setOwnerOpen(true);
@@ -626,11 +634,11 @@ export default function App() {
         <ValueStrip />
         <Benefits />
         <FruitsIncluded />
-        <Gallery />
         <Weddings />
         <Booking />
       </main>
       <Footer />
+      <GalleryPanel open={galleryOpen} onClose={() => setGalleryOpen(false)} />
       <AdminPanel open={ownerOpen} onClose={() => setOwnerOpen(false)} />
     </>
   );

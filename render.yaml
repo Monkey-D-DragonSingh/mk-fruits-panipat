@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: mk-fruits-panipat-api
+    runtime: node
+    plan: starter
+    buildCommand: npm install --prefix server
+    startCommand: npm start --prefix server
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: PORT
+        value: "3001"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: OWNER_PASSWORD
+        sync: false
+      - key: CORS_ORIGIN
+        value: "*"

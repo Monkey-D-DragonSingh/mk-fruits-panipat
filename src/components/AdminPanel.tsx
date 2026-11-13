@@ -48,9 +48,11 @@ function AdminBookingCard({
         <p>
           <strong>Guests:</strong> {String(b.guests ?? "")}
         </p>
-        <p>
-          <strong>Package:</strong> {b.package || ""}
-        </p>
+        {b.package ? (
+          <p>
+            <strong>Service:</strong> {b.package}
+          </p>
+        ) : null}
         {b.notes ? (
           <p>
             <strong>Notes:</strong> {b.notes}
@@ -345,7 +347,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
 
             <div id="adminList" className="admin-list">
               {loading ? <div className="admin-empty">Loading bookings…</div> : null}
-              {!loading && bookings.length === 0 ? <div className="admin-empty">No bookings yet. New fruit feast requests will appear here.</div> : null}
+              {!loading && bookings.length === 0 ? <div className="admin-empty">No bookings yet. New wedding fruit stall booking requests will appear here.</div> : null}
               {!loading && bookings.length > 0 && filteredBookings.length === 0 ? <div className="admin-empty">No bookings match "{search}".</div> : null}
               {!loading
                 ? filteredBookings.map((b) => <AdminBookingCard key={String(b.id || b.ref || `${b.name}-${b.date}`)} b={b} onStatus={handleStatus} onDelete={handleDelete} />)

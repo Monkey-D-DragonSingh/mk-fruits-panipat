@@ -1,6 +1,6 @@
 import { useState, type FormEvent, type ReactElement } from "react";
 import { submitBooking } from "./lib/api";
-import { FRUITS, QUANTITY_OPTIONS, type Fruit } from "./data";
+import { FRUITS, type Fruit } from "./data";
 import { saveLocalBooking } from "./lib/localBookings";
 import AdminPanel from "./components/AdminPanel";
 
@@ -10,9 +10,9 @@ const TIME_SLOTS = ["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", 
 const NAV_LINKS = [
   { href: "#home", label: "Home" },
   { href: "#why", label: "Why Us" },
-  { href: "#menu", label: "Menu" },
-  { href: "#catering", label: "Catering" },
-  { href: "#book", label: "Book a Table" },
+  { href: "#fruits", label: "Fruits" },
+  { href: "#weddings", label: "Weddings" },
+  { href: "#book", label: "Book Stall" },
 ];
 
 const EMAIL = "mkfreshfruitpanipat@gmail.com";
@@ -46,7 +46,7 @@ function Header({
           </span>
         </a>
         <div className="header-actions">
-          <a href="#book" className="btn btn-primary btn-book">Book Now</a>
+          <a href="#book" className="btn btn-primary btn-book">Book Stall</a>
           <button className="btn btn-secondary btn-sm owner-trigger" type="button" onClick={onOpenOwner} aria-label="Owner Panel">
             Owner
           </button>
@@ -91,40 +91,40 @@ function Hero() {
       <div className="hero-blob" aria-hidden="true" />
       <div className="container hero-inner">
         <div className="hero-copy">
-          <p className="eyebrow">Fresh Fruit Catering &middot; Panipat</p>
+          <p className="eyebrow">Wedding Fruit Stall · Panipat</p>
           <h1>
-            Freshness <span className="accent">That Steals the Show</span>
+            Fresh Fruit Stalls <span className="accent">For Your Wedding</span>
           </h1>
           <p className="lede">
-            Handpicked fruits, cold-chain delivery and bold fruit-forward catering for weddings, birthdays, corporate events and every celebration worth remembering.
+            Planning a wedding? Reach out to us and we’ll set up a beautiful fresh fruit stall at your venue. All the fruits listed below are included when you book our stall.
           </p>
           <div className="hero-cta">
-            <a href="#menu" className="btn btn-primary">
-              Explore the Menu
+            <a href="#fruits" className="btn btn-primary">
+              See Included Fruits
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </a>
-            <a href="#book" className="btn btn-secondary">Book a Table</a>
+            <a href="#book" className="btn btn-secondary">Book Our Stall</a>
           </div>
           <ul className="hero-trust">
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6 9 17l-5-5" />
               </svg>
-              Handpicked
+              Wedding-ready setup
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6 9 17l-5-5" />
               </svg>
-              Cold-chain fresh
+              Fresh & handpicked
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6 9 17l-5-5" />
               </svg>
-              No preservatives
+              All listed fruits included
             </li>
           </ul>
         </div>
@@ -152,20 +152,20 @@ function ValueStrip() {
     <section className="value-strip" id="why">
       <div className="container value-inner">
         <p className="value-proposition">
-          Picked fresh. Served chilled. <span>Remembered forever.</span>
+          Book us for your wedding. <span>We bring the fruit stall to you.</span>
         </p>
         <ul className="value-stats">
           <li>
-            <strong>50+</strong>
-            <span>Fruit Varieties</span>
+            <strong>{FRUITS.length}+</strong>
+            <span>Fruits Included</span>
           </li>
           <li>
             <strong>100%</strong>
-            <span>Natural &amp; Preservative-Free</span>
+            <span>Fresh & Handpicked</span>
           </li>
           <li>
-            <strong>24h</strong>
-            <span>Same-Day Delivery</span>
+            <strong>1</strong>
+            <span>Beautiful Stall Setup</span>
           </li>
         </ul>
       </div>
@@ -183,8 +183,8 @@ function Benefits() {
           <path d="M11 22c0 0 1 0 1 0z" />
         </svg>
       ),
-      title: "Farm-Fresh Sourcing",
-      desc: "Partner farms, handpicked at peak ripeness and delivered straight to your event.",
+      title: "Fresh & Handpicked",
+      desc: "Premium fruits selected at peak ripeness so your guests enjoy the best quality.",
     },
     {
       icon: (
@@ -193,8 +193,8 @@ function Benefits() {
           <path d="M12 22v-9" />
         </svg>
       ),
-      title: "Cold-Chain Chilled",
-      desc: "Every fruit kept at safe chilled temperatures from farm gate to serving spoon.",
+      title: "Stall at Your Venue",
+      desc: "We bring and set up a fresh fruit stall at your wedding venue — hassle-free for you.",
     },
     {
       icon: (
@@ -202,8 +202,8 @@ function Benefits() {
           <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3z" />
         </svg>
       ),
-      title: "Custom Fruit Feasts",
-      desc: "Bespoke platters and themed fruit boards built around your menu, colours and story.",
+      title: "All Listed Fruits Included",
+      desc: "When you book us, all the fruits shown in our list are included in your wedding stall.",
     },
     {
       icon: (
@@ -212,8 +212,8 @@ function Benefits() {
           <path d="m9 12 2 2 4-4" />
         </svg>
       ),
-      title: "Hygienic Handling",
-      desc: "Sanitized preparation spaces and clean servingware for zero-compromise events.",
+      title: "Clean & Hygienic",
+      desc: "Neat presentation and hygienic handling so your celebration stays perfect.",
     },
   ];
 
@@ -222,8 +222,8 @@ function Benefits() {
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">Why MK Fruits</p>
-          <h2>Freshness You Can Taste</h2>
-          <p className="section-sub">Three promises behind every fruit we serve — and every event we cater.</p>
+          <h2>Perfect for Wedding Celebrations</h2>
+          <p className="section-sub">A fresh fruit stall that adds colour, taste, and a premium touch to your wedding.</p>
         </header>
         <ul className="benefit-grid">
           {benefits.map((b) => (
@@ -239,7 +239,7 @@ function Benefits() {
   );
 }
 
-/* ================= MENU ================= */
+/* ================= FRUITS (INCLUDED) ================= */
 function FruitIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -250,7 +250,6 @@ function FruitIcon() {
 }
 
 function FruitCard({ fruit }: { fruit: Fruit }) {
-  const [qty, setQty] = useState(QUANTITY_OPTIONS[2]);
   return (
     <article className="menu-card">
       <span className="menu-icon">
@@ -258,31 +257,23 @@ function FruitCard({ fruit }: { fruit: Fruit }) {
       </span>
       <h3>{fruit.english}</h3>
       <p>
-        {fruit.hindi} · {fruit.origin} ({fruit.country})
+        {fruit.hindi} · {fruit.origin}
       </p>
       <p>{fruit.desc}</p>
-      <div className="menu-qty">
-        <span className="menu-qty-label">Quantity</span>
-        <div className="menu-qty-opts">
-          {QUANTITY_OPTIONS.map((q) => (
-            <button key={q} type="button" className={`menu-qty-opt${qty === q ? " active" : ""}`} onClick={() => setQty(q)}>
-              {q}
-            </button>
-          ))}
-        </div>
-      </div>
     </article>
   );
 }
 
-function Menu() {
+function FruitsIncluded() {
   return (
-    <section className="section menu-section" id="menu">
+    <section className="section menu-section" id="fruits">
       <div className="container">
         <header className="section-head">
-          <p className="eyebrow">The Fruits Menu</p>
-          <h2>Fresh Fruits, Ready to Serve</h2>
-          <p className="section-sub">Handpicked varieties served fresh — from daily fruit boxes to celebration platters. Pick your quantity per fruit.</p>
+          <p className="eyebrow">Included Fruits</p>
+          <h2>Fruits in Your Wedding Stall</h2>
+          <p className="section-sub">
+            Jab aap hamara fruit stall book karte ho, ye sab fresh fruits aapki wedding me stall par included milenge.
+          </p>
         </header>
         <div className="menu-grid">
           {FRUITS.map((f) => (
@@ -290,24 +281,26 @@ function Menu() {
           ))}
         </div>
         <div className="menu-cta">
-          <a href="#book" className="btn btn-primary btn-lg">Book a Fruit Feast</a>
+          <a href="#book" className="btn btn-primary btn-lg">Book Wedding Fruit Stall</a>
         </div>
       </div>
     </section>
   );
 }
 
-/* ================= CATERING ================= */
-function Catering() {
+/* ================= WEDDINGS / CTA ================= */
+function Weddings() {
   return (
-    <section className="section catering" id="catering">
+    <section className="section catering" id="weddings">
       <div className="container catering-inner">
         <div className="catering-copy">
-          <p className="eyebrow">Custom Catering</p>
-          <h2>Big Event, Big Fruit? Let&rsquo;s Build Your Feast.</h2>
-          <p className="section-sub">From intimate gatherings to grand celebrations — we design a custom fruit menu around your theme, season and guest list.</p>
+          <p className="eyebrow">For Weddings</p>
+          <h2>Wedding aa rahi hai? Hum fruit stall laga denge.</h2>
+          <p className="section-sub">
+            Apni wedding date aur details share karo — hum aapke venue par fresh fruits ka stall setup karenge, jisme upar listed sab fruits included honge.
+          </p>
         </div>
-        <a href="#book" className="btn btn-primary btn-lg">Book Your Fruit Feast</a>
+        <a href="#book" className="btn btn-primary btn-lg">Book Your Stall</a>
       </div>
     </section>
   );
@@ -321,12 +314,11 @@ interface BookingFormState {
   date: string;
   time: string;
   guests: string;
-  package: string;
   notes: string;
 }
 
 function Booking() {
-  const [bk, setBk] = useState<BookingFormState>({ name: "", phone: "", email: "", date: "", time: "", guests: "", package: "", notes: "" });
+  const [bk, setBk] = useState<BookingFormState>({ name: "", phone: "", email: "", date: "", time: "", guests: "", notes: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formHidden, setFormHidden] = useState(false);
   const [bkRef, setBkRef] = useState("");
@@ -337,11 +329,10 @@ function Booking() {
     const next: Record<string, string> = {};
     if (bk.name.trim().length < 2) next.bkName = "Please enter your full name.";
     if (!PHONE_RE.test(bk.phone.trim())) next.bkPhone = "Please enter a valid phone / WhatsApp number.";
-    if (!bk.date) next.bkDate = "Please choose an event date.";
+    if (!bk.date) next.bkDate = "Please choose your wedding/event date.";
     if (!bk.time) next.bkTime = "Please select a time slot.";
     const guestNum = Number(bk.guests);
-    if (!bk.guests || !Number.isFinite(guestNum) || guestNum < 1 || guestNum > 50) next.bkGuests = "Guests must be between 1 and 50.";
-    if (!bk.package) next.bkPackage = "Please select a fruit package.";
+    if (!bk.guests || !Number.isFinite(guestNum) || guestNum < 1 || guestNum > 5000) next.bkGuests = "Please enter approximate number of guests.";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -358,9 +349,9 @@ function Booking() {
       date: bk.date,
       time: bk.time,
       guests: Number(bk.guests),
-      package: bk.package,
+      package: "Wedding Fruit Stall",
       notes: bk.notes.trim(),
-      items: [] as any[],
+      items: FRUITS.map((f) => ({ id: f.id, english: f.english, hindi: f.hindi, origin: f.origin })),
     };
     const res = await submitBooking(payload as any);
     setSubmitting(false);
@@ -414,20 +405,60 @@ function Booking() {
   }
 
   function onReset() {
-    setBk({ name: "", phone: "", email: "", date: "", time: "", guests: "", package: "", notes: "" });
+    setBk({ name: "", phone: "", email: "", date: "", time: "", guests: "", notes: "" });
     setErrors({});
     setFormHidden(false);
     setSubmitNote("");
   }
+
+  const infoAside = (
+    <aside className="booking-info">
+      <h3>Prefer to reach us directly?</h3>
+      <ul className="info-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          <p>
+            <strong>Visit / Contact</strong>
+            <br />
+            {ADDRESS}
+          </p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 0.7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          <p>
+            <strong>Call / WhatsApp</strong>
+            <br />
+            {PHONE} / {PHONE2}
+          </p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          <p>
+            <strong>Email</strong>
+            <br />
+            {EMAIL}
+          </p>
+        </li>
+      </ul>
+    </aside>
+  );
 
   if (formHidden) {
     return (
       <section className="section" id="book">
         <div className="container">
           <header className="section-head">
-            <p className="eyebrow">Table Booking</p>
-            <h2>Book Your Fruit Feast</h2>
-            <p className="section-sub">Reserve a table or request a custom fruit catering package for your event.</p>
+            <p className="eyebrow">Stall Booking</p>
+            <h2>Book Wedding Fruit Stall</h2>
+            <p className="section-sub">Share your wedding details and we’ll set up a fresh fruit stall at your venue with all listed fruits included.</p>
           </header>
           <div className="booking-grid">
             <div className="booking-form" style={{ textAlign: "center" }}>
@@ -437,9 +468,9 @@ function Booking() {
                     <path d="M20 6 9 17l-5-5" />
                   </svg>
                 </span>
-                <h3>Booking Requested!</h3>
+                <h3>Booking Request Received!</h3>
                 <p>
-                  Your fruit feast request <strong id="bkRef">{bkRef}</strong> has been received. Our team will confirm via call / WhatsApp within 24 hours.
+                  Your wedding fruit stall request <strong id="bkRef">{bkRef}</strong> has been received. Our team will confirm via call / WhatsApp within 24 hours.
                 </p>
                 {submitNote ? <p className="form-note" style={{ color: "#FBBF24" }}>{submitNote}</p> : null}
                 <button className="btn btn-secondary" type="button" onClick={onReset}>
@@ -447,54 +478,7 @@ function Booking() {
                 </button>
               </div>
             </div>
-            <aside className="booking-info">
-              <h3>Prefer to reach us directly?</h3>
-              <ul className="info-list">
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  <p>
-                    <strong>Visit / Catering Venue</strong>
-                    <br />
-                    {ADDRESS}
-                  </p>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 0.7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                  <p>
-                    <strong>Call / WhatsApp</strong>
-                    <br />
-                    {PHONE} / {PHONE2}
-                  </p>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
-                  </svg>
-                  <p>
-                    <strong>Email</strong>
-                    <br />
-                    {EMAIL}
-                  </p>
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
-                  </svg>
-                  <p>
-                    <strong>Hours</strong>
-                    <br />
-                    Tue – Sun &middot; 10:00 AM – 8:00 PM
-                  </p>
-                </li>
-              </ul>
-            </aside>
+            {infoAside}
           </div>
         </div>
       </section>
@@ -505,9 +489,9 @@ function Booking() {
     <section className="section" id="book">
       <div className="container">
         <header className="section-head">
-          <p className="eyebrow">Table Booking</p>
-          <h2>Book Your Fruit Feast</h2>
-          <p className="section-sub">Reserve a table or request a custom fruit catering package for your event.</p>
+          <p className="eyebrow">Stall Booking</p>
+          <h2>Book Wedding Fruit Stall</h2>
+          <p className="section-sub">Share your wedding details and we’ll set up a fresh fruit stall at your venue with all listed fruits included.</p>
         </header>
         <div className="booking-grid">
           <form className="booking-form" id="bookingForm" onSubmit={onSubmit} noValidate>
@@ -530,12 +514,12 @@ function Booking() {
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="bkDate">Event Date <span aria-hidden="true"> *</span></label>
+                <label htmlFor="bkDate">Wedding / Event Date <span aria-hidden="true"> *</span></label>
                 <input className="input" type="date" id="bkDate" value={bk.date} onChange={(e) => setBk({ ...bk, date: e.target.value })} />
                 <p className="field-error" data-for="bkDate">{errors.bkDate || ""}</p>
               </div>
               <div className="field">
-                <label htmlFor="bkTime">Time Slot <span aria-hidden="true"> *</span></label>
+                <label htmlFor="bkTime">Preferred Time <span aria-hidden="true"> *</span></label>
                 <select className="input" id="bkTime" value={bk.time} onChange={(e) => setBk({ ...bk, time: e.target.value })}>
                   <option value="" disabled>
                     Select time
@@ -549,86 +533,23 @@ function Booking() {
                 <p className="field-error" data-for="bkTime">{errors.bkTime || ""}</p>
               </div>
             </div>
-            <div className="field-row">
-              <div className="field">
-                <label htmlFor="bkGuests">Guests <span aria-hidden="true"> *</span></label>
-                <input className="input" type="number" id="bkGuests" min={1} max={50} value={bk.guests} onChange={(e) => setBk({ ...bk, guests: e.target.value })} placeholder="e.g. 50" />
-                <p className="field-error" data-for="bkGuests">{errors.bkGuests || ""}</p>
-              </div>
-              <div className="field">
-                <label htmlFor="bkPackage">Fruit Package <span aria-hidden="true"> *</span></label>
-                <select className="input" id="bkPackage" value={bk.package} onChange={(e) => setBk({ ...bk, package: e.target.value })}>
-                  <option value="" disabled>
-                    Select package
-                  </option>
-                  {["Royal Harvest Medley", "Mango Carnival", "Berry Bliss Box", "Custom / Other"].map((p) => (
-                    <option key={p} value={p}>
-                      {p}
-                    </option>
-                  ))}
-                </select>
-                <p className="field-error" data-for="bkPackage">{errors.bkPackage || ""}</p>
-              </div>
+            <div className="field">
+              <label htmlFor="bkGuests">Approx. Guests <span aria-hidden="true"> *</span></label>
+              <input className="input" type="number" id="bkGuests" min={1} max={5000} value={bk.guests} onChange={(e) => setBk({ ...bk, guests: e.target.value })} placeholder="e.g. 300" />
+              <p className="field-error" data-for="bkGuests">{errors.bkGuests || ""}</p>
             </div>
             <div className="field">
               <label htmlFor="bkNotes">
-                Notes <span className="optional">(optional)</span>
+                Venue / Notes <span className="optional">(optional)</span>
               </label>
-              <textarea className="input" id="bkNotes" rows={3} value={bk.notes} onChange={(e) => setBk({ ...bk, notes: e.target.value })} placeholder="Theme, dietary notes, allergies, venue details..." />
+              <textarea className="input" id="bkNotes" rows={3} value={bk.notes} onChange={(e) => setBk({ ...bk, notes: e.target.value })} placeholder="Venue address, wedding details, special requests..." />
             </div>
             <button className="btn btn-primary btn-block btn-lg" type="submit" disabled={submitting}>
-              {submitting ? "Submitting..." : "Request Booking"}
+              {submitting ? "Submitting..." : "Request Stall Booking"}
             </button>
-            <p className="form-note">We confirm every booking via call or WhatsApp within 24 hours.</p>
+            <p className="form-note">We confirm every booking via call or WhatsApp within 24 hours. All listed fruits are included in the wedding stall.</p>
           </form>
-          <aside className="booking-info">
-            <h3>Prefer to reach us directly?</h3>
-            <ul className="info-list">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <p>
-                  <strong>Visit / Catering Venue</strong>
-                  <br />
-                  {ADDRESS}
-                </p>
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 0.7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <p>
-                  <strong>Call / WhatsApp</strong>
-                  <br />
-                  {PHONE} / {PHONE2}
-                </p>
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
-                <p>
-                  <strong>Email</strong>
-                  <br />
-                  {EMAIL}
-                </p>
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
-                <p>
-                  <strong>Hours</strong>
-                  <br />
-                  Tue – Sun &middot; 10:00 AM – 8:00 PM
-                </p>
-              </li>
-            </ul>
-          </aside>
+          {infoAside}
         </div>
       </div>
     </section>
@@ -652,13 +573,13 @@ function Footer() {
               MK Fruits <span className="brand-accent">Panipat</span>
             </span>
           </a>
-          <p>Fresh fruit catering and handcrafted fruit feasts from Panipat to your celebration.</p>
+          <p>Wedding fruit stall service in Panipat — we set up fresh fruit stalls at your wedding with all our listed fruits included.</p>
         </div>
         <nav className="footer-links" aria-label="Footer">
           <h3>Explore</h3>
           <a href="#home">Home</a>
-          <a href="#menu">Menu</a>
-          <a href="#book">Book a Table</a>
+          <a href="#fruits">Included Fruits</a>
+          <a href="#book">Book Stall</a>
         </nav>
         <div className="footer-contact">
           <h3>Contact</h3>
@@ -701,8 +622,8 @@ export default function App() {
         <Hero />
         <ValueStrip />
         <Benefits />
-        <Menu />
-        <Catering />
+        <FruitsIncluded />
+        <Weddings />
         <Booking />
       </main>
       <Footer />

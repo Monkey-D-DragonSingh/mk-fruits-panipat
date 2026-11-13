@@ -1,5 +1,5 @@
 -- MK Fruits Panipat — Supabase database schema
--- Table: bookings (fruit feast / table booking requests)
+-- Table: bookings (wedding fruit stall booking requests)
 -- Designed to handle thousands of bookings with indexed lookups.
 
 create table if not exists public.bookings (
@@ -11,7 +11,7 @@ create table if not exists public.bookings (
   date date not null,
   time text not null,
   guests integer not null check (guests > 0),
-  package text not null,
+  package text not null default 'Wedding Fruit Stall',
   notes text,
   items jsonb not null default '[]'::jsonb,
   status text not null default 'pending' check (status in ('pending','confirmed','completed','cancelled')),
@@ -24,6 +24,7 @@ alter table public.bookings add column if not exists ref text;
 alter table public.bookings add column if not exists email text;
 alter table public.bookings add column if not exists items jsonb not null default '[]'::jsonb;
 alter table public.bookings add column if not exists updated_at timestamptz not null default now();
+alter table public.bookings alter column package set default 'Wedding Fruit Stall';
 
 create unique index if not exists idx_bookings_ref on public.bookings (ref) where ref is not null;
 create index if not exists idx_bookings_date on public.bookings (date);

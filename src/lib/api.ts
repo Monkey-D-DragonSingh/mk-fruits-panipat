@@ -9,7 +9,7 @@ export interface Booking {
   date: string;
   time: string;
   guests: number;
-  package: string;
+  package?: string;
   notes?: string;
   items?: any[];
   status?: string;

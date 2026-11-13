@@ -1,5 +1,3 @@
-export const QUANTITY_OPTIONS = ["250g", "500g", "1kg", "2kg", "5kg"];
-
 export interface Fruit {
   id: string;
   hindi: string;
@@ -17,7 +15,7 @@ export const FRUITS: Fruit[] = [
   { id: "guava", hindi: "गावा", english: "Guava", origin: "Bangkok", country: "Thailand", desc: "Plump white guavas, sweet and tangy — street-side favourite turned premium box fruit.", price: 140 },
   { id: "babugosha", hindi: "बबूगोसा", english: "Pear / Babugosha", origin: "South Africa", country: "South Africa", desc: "Juicy pears with the desi twist — soft, sweet and perfect for gifting boxes.", price: 180 },
   { id: "dragonfruit", hindi: "ड्रैगन", english: "Dragon Fruit", origin: "Bangkok", country: "Thailand", desc: "Exotic dragon fruit with vivid pink flesh, ideal for celebrations and photo moments.", price: 260 },
-  { id: "dates", hindi: "खजूर", english: "Dates", origin: "Saudi Arabia", country: "Saudi Arabia", desc: "Ajwa and Medjool dates — nature's caramel energy, packed for gifting and feasts.", price: 220 },
+  { id: "dates", hindi: "खजूर", english: "Dates", origin: "Saudi Arabia", country: "Saudi Arabia", desc: "Ajwa and Medjool dates — nature's caramel energy, perfect for wedding fruit stalls and gifting.", price: 220 },
   { id: "miniorange", hindi: "मिनी ऑरेंज", english: "Mini Orange", origin: "Australia", country: "Australia", desc: "Baby oranges in bite-size nets — fun, portable and packed with vitamin C.", price: 150 },
   { id: "mango", hindi: "आम", english: "Mango", origin: "Indian", country: "India", desc: "Alphonso and seasonal mango selection, cut fresh for peak summer sweetness.", price: 900 },
   { id: "watermelon", hindi: "तरबूज", english: "Watermelon", origin: "China", country: "China", desc: "Juicy watermelons for summer birthdays, picnics and poolside celebrations.", price: 200 },

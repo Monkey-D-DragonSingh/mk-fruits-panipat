@@ -87,7 +87,7 @@ app.post("/api/owner/login", (req, res) => {
 // Create a booking (called from the customer facing form)
 app.post("/api/bookings", async (req, res) => {
   const { name, phone, email, date, time, guests, package: pkg, notes, items, ref } = req.body || {};
-  if (!name || !phone || !date || !time || !guests || !pkg) {
+  if (!name || !phone || !date || !time || !guests) {
     return res.status(400).json({ ok: false, error: "Missing required fields" });
   }
   const bookingRef = ref || `MKFP-${Date.now().toString(36).toUpperCase()}${Math.floor(Math.random() * 90 + 10)}`;
@@ -101,7 +101,7 @@ app.post("/api/bookings", async (req, res) => {
     date,
     time,
     guests: Number(guests),
-    package: pkg,
+    package: pkg || "Wedding Fruit Stall",
     notes: notes || null,
     items: Array.isArray(items) ? items : [],
     status: "pending",

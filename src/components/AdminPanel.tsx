@@ -112,6 +112,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
   const [password, setPassword] = useState("");
   const [pwVisible, setPwVisible] = useState(false);
   const [gateError, setGateError] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
   const [actionError, setActionError] = useState("");
@@ -122,6 +123,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
       setToken(null);
       setPassword("");
       setGateError("");
+      setLoggingIn(false);
       setBookings([]);
       setActionError("");
       setPwVisible(false);
@@ -193,22 +195,28 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
       setGateError("Please enter the owner password.");
       return;
     }
-    const res = await loginOwner(entered);
-    if (res.ok && res.token) {
-      setToken(res.token);
-      setPassword("");
-      setGateError("");
-      setActionError("");
-      return;
+    setLoggingIn(true);
+    setGateError("");
+    try {
+      const res = await loginOwner(entered);
+      if (res.ok && res.token) {
+        setToken(res.token);
+        setPassword("");
+        setGateError("");
+        setActionError("");
+        return;
+      }
+      if (entered === OWNER_FALLBACK_PASSWORD) {
+        setToken(LOCAL_OWNER_TOKEN);
+        setPassword("");
+        setGateError("");
+        setActionError("Opened in local owner mode (backend unavailable on this deployment). Showing bookings saved on this device/browser.");
+        return;
+      }
+      setGateError(res.error || "Invalid owner password. Please try again.");
+    } finally {
+      setLoggingIn(false);
     }
-    if (entered === OWNER_FALLBACK_PASSWORD) {
-      setToken(LOCAL_OWNER_TOKEN);
-      setPassword("");
-      setGateError("");
-      setActionError("Opened in local owner mode (backend unavailable on this deployment). Showing bookings saved on this device/browser.");
-      return;
-    }
-    setGateError(res.error || "Invalid owner password. Please try again.");
   }
 
   async function handleRefresh() {
@@ -366,8 +374,8 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
                   {gateError}
                 </p>
               </div>
-              <button className="btn btn-primary btn-block btn-lg" type="submit">
-                Open Dashboard
+              <button className="btn btn-primary btn-block btn-lg" type="submit" disabled={loggingIn}>
+                {loggingIn ? "Opening..." : "Open Dashboard"}
               </button>
               <p className="form-note">This panel is private to the business owner. Customers never see it.</p>
             </form>

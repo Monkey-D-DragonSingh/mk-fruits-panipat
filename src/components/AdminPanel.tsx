@@ -3,14 +3,17 @@ import {
   deleteBooking,
   exportBookings,
   getBookings,
+  LOCAL_OWNER_TOKEN,
   loginOwner,
   logoutOwner,
+  OWNER_FALLBACK_PASSWORD,
   updateBookingStatus,
   type Booking,
 } from "../lib/api";
 import { deleteLocalBooking, getLocalBookings, updateLocalBooking } from "../lib/localBookings";
 
 const TOKEN_KEY = "mkfp_owner_token";
+const isLocalToken = (t: string | null) => t === LOCAL_OWNER_TOKEN;
 
 function toWaNumber(phone: string) {
   const digits = String(phone || "").replace(/\D/g, "");
@@ -142,6 +145,12 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
   }
 
   async function loadBookings(bearer: string) {
+    if (isLocalToken(bearer)) {
+      const local = getLocalBookings();
+      setBookings(local);
+      setActionError(local.length ? "Local owner mode: showing bookings saved on this device/browser." : "");
+      return;
+    }
     const res = await getBookings(bearer);
     if (res.ok && res.data) {
       setBookings(mergeBookings(res.data));
@@ -179,19 +188,27 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
-    if (password.trim().length < 4) {
+    const entered = password.trim();
+    if (entered.length < 4) {
       setGateError("Please enter the owner password.");
       return;
     }
-    const res = await loginOwner(password);
+    const res = await loginOwner(entered);
     if (res.ok && res.token) {
       setToken(res.token);
       setPassword("");
       setGateError("");
       setActionError("");
-    } else {
-      setGateError(res.error || "Invalid owner password. Please try again.");
+      return;
     }
+    if (entered === OWNER_FALLBACK_PASSWORD) {
+      setToken(LOCAL_OWNER_TOKEN);
+      setPassword("");
+      setGateError("");
+      setActionError("Opened in local owner mode (backend unavailable on this deployment). Showing bookings saved on this device/browser.");
+      return;
+    }
+    setGateError(res.error || "Invalid owner password. Please try again.");
   }
 
   async function handleRefresh() {
@@ -204,7 +221,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
   async function handleStatus(id: string, status: string) {
     if (!token) return;
     const target = bookings.find((b) => String(b.id) === String(id) || String(b.ref) === String(id));
-    if (target?._local) {
+    if (isLocalToken(token) || target?._local) {
       updateLocalBooking(id, status);
       await loadBookings(token);
       return;
@@ -220,7 +237,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
   async function handleDelete(id: string) {
     if (!token) return;
     const target = bookings.find((b) => String(b.id) === String(id) || String(b.ref) === String(id));
-    if (target?._local) {
+    if (isLocalToken(token) || target?._local) {
       deleteLocalBooking(id);
       await loadBookings(token);
       return;
@@ -234,14 +251,43 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
   }
 
   async function handleLogout() {
-    if (token) await logoutOwner(token);
+    if (token && !isLocalToken(token)) await logoutOwner(token);
     setToken(null);
     setBookings([]);
     setActionError("");
   }
 
+  function downloadText(filename: string, content: string, type: string) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
   async function handleExport(format: "json" | "csv") {
     if (!token) return;
+    if (isLocalToken(token)) {
+      const ts = new Date().toISOString().replace(/[:.]/g, "-");
+      const data = bookings;
+      if (format === "csv") {
+        const cols = ["ref", "id", "name", "phone", "email", "date", "time", "guests", "package", "status", "notes", "createdAt", "created_at"];
+        const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+        const lines = [cols.join(",")].concat(data.map((b) => cols.map((c) => esc((b as any)[c])).join(",")));
+        downloadText(`mkfp-bookings-${ts}.csv`, lines.join("\n"), "text/csv;charset=utf-8");
+      } else {
+        downloadText(
+          `mkfp-bookings-${ts}.json`,
+          JSON.stringify({ ok: true, exportedAt: new Date().toISOString(), count: data.length, data }, null, 2),
+          "application/json;charset=utf-8"
+        );
+      }
+      return;
+    }
     const res = await exportBookings(token, format);
     if (!res.ok) setActionError(res.error || "Export failed");
   }
@@ -272,7 +318,7 @@ export default function AdminPanel({ open, onClose }: { open: boolean; onClose: 
             <p className="eyebrow">Owner Panel</p>
             <h2>Bookings Dashboard</h2>
           </div>
-          <button className="btn btn-secondary btn-sm" type="button" onClick={async () => { if (token) await logoutOwner(token); try { sessionStorage.removeItem(TOKEN_KEY); } catch {} setToken(null); onClose(); }} aria-label="Close owner panel">
+          <button className="btn btn-secondary btn-sm" type="button" onClick={async () => { if (token && !isLocalToken(token)) await logoutOwner(token); try { sessionStorage.removeItem(TOKEN_KEY); } catch {} setToken(null); onClose(); }} aria-label="Close owner panel">
             Close
           </button>
         </div>

@@ -1,5 +1,8 @@
 export const API_BASE = import.meta.env.DEV ? `http://${window.location.hostname}:3001` : "";
 
+export const OWNER_FALLBACK_PASSWORD = import.meta.env.VITE_OWNER_PASSWORD || "MKFP-OWNER-2026";
+export const LOCAL_OWNER_TOKEN = "mkfp-local-owner-session";
+
 export interface Booking {
   id?: string;
   ref?: string;

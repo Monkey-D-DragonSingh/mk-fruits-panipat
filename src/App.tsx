@@ -35,7 +35,7 @@ function Header({
   onOpenOwner: () => void;
 }) {
   return (
-    <header className="site-header" id="siteHeader">
+    <header className={`site-header${navOpen ? " is-open" : ""}`} id="siteHeader">
       <div className="container header-top">
         <a className="brand" href="#home" aria-label="MK Fruits Panipat — home">
           <svg className="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">

@@ -3,6 +3,7 @@ import { submitBooking } from "./lib/api";
 import { FRUITS, type Fruit } from "./data";
 import { saveLocalBooking } from "./lib/localBookings";
 import AdminPanel from "./components/AdminPanel";
+import Gallery from "./components/Gallery";
 
 const PHONE_RE = /^\+?[0-9][0-9\s-]{9,}$/;
 const TIME_SLOTS = ["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM", "06:00 PM", "07:30 PM"];
@@ -11,6 +12,7 @@ const NAV_LINKS = [
   { href: "#home", label: "Home" },
   { href: "#why", label: "Why Us" },
   { href: "#fruits", label: "Fruits" },
+  { href: "#gallery", label: "Gallery" },
   { href: "#weddings", label: "Weddings" },
   { href: "#book", label: "Book Stall" },
 ];
@@ -579,6 +581,7 @@ function Footer() {
           <h3>Explore</h3>
           <a href="#home">Home</a>
           <a href="#fruits">Included Fruits</a>
+          <a href="#gallery">Gallery</a>
           <a href="#book">Book Stall</a>
         </nav>
         <div className="footer-contact">
@@ -623,6 +626,7 @@ export default function App() {
         <ValueStrip />
         <Benefits />
         <FruitsIncluded />
+        <Gallery />
         <Weddings />
         <Booking />
       </main>

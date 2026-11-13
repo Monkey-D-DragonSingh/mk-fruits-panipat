@@ -7,7 +7,7 @@ services:
     startCommand: npm start --prefix server
     envVars:
       - key: NODE_VERSION
-        value: "20"
+        value: "22"
       - key: PORT
         value: "3001"
       - key: SUPABASE_URL

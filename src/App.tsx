@@ -20,7 +20,7 @@ const NAV_LINKS = [
 const EMAIL = "mkfreshfruitpanipat@gmail.com";
 const PHONE = "+91 8221900072";
 const PHONE2 = "+91 8053645003";
-const ADDRESS = "Fruit Farm Road, Near Old Bus Stand, Panipat, Haryana 132001";
+const ADDRESS = "Kuldeep Nagar, Panipat, Haryana";
 
 /* ================= HEADER ================= */
 function Header({

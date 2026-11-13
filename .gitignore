@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Server runtime data (keep bookings/db managed separately)
+server/data/sessions.json
+server/data/login_attempts.json
+server/data/notifications.json
+

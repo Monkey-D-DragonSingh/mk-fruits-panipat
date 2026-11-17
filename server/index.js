@@ -163,7 +163,7 @@ const OWNER_EMAIL = process.env.OWNER_NOTIFY_EMAIL || "mkfreshfruitpanipat@gmail
 const NOTIFY_WEBHOOK_URL = process.env.NOTIFY_WEBHOOK_URL || "";
 
 function bookingSummary(b) {
-  return `MK Fruits Booking ${b.ref || b.id}\nName: ${b.name}\nPhone: ${b.phone}\nDate: ${b.date} ${b.time}\nGuests: ${b.guests}\nVenue/Notes: ${b.notes || "-"}`;
+  return `MK Fruit Booking ${b.ref || b.id}\nName: ${b.name}\nPhone: ${b.phone}\nDate: ${b.date} ${b.time}\nGuests: ${b.guests}\nVenue/Notes: ${b.notes || "-"}`;
 }
 async function sendEmail(to, subject, text) {
   if (!nodemailer || !process.env.SMTP_HOST || !to) return { ok: false, error: "SMTP not configured" };
@@ -189,7 +189,7 @@ function createNotificationRecords(booking) {
     { id: genId(), booking_id: booking.id, booking_ref: booking.ref, channel: "owner_whatsapp", recipient: OWNER_PHONE, payload: { text: bookingSummary(booking), waLink: `https://wa.me/91${String(OWNER_PHONE).replace(/\D/g, "").slice(-10)}?text=${waText}` }, status: "pending", attempts: 0, last_error: null, created_at: now, sent_at: null },
     { id: genId(), booking_id: booking.id, booking_ref: booking.ref, channel: "owner_email", recipient: OWNER_EMAIL, payload: { subject: `New Booking ${booking.ref}`, text: bookingSummary(booking) }, status: "pending", attempts: 0, last_error: null, created_at: now, sent_at: null },
   ];
-  if (booking.email) records.push({ id: genId(), booking_id: booking.id, booking_ref: booking.ref, channel: "customer_email", recipient: booking.email, payload: { subject: `Booking Received ${booking.ref} - MK Fruits Panipat`, text: `Thank you ${booking.name},\n\nWe received your wedding fruit stall booking request.\n\n${bookingSummary(booking)}\n\nWe will confirm via call/WhatsApp within 24 hours.\n\nMK Fruits Panipat` }, status: "pending", attempts: 0, last_error: null, created_at: now, sent_at: null });
+  if (booking.email) records.push({ id: genId(), booking_id: booking.id, booking_ref: booking.ref, channel: "customer_email", recipient: booking.email, payload: { subject: `Booking Received ${booking.ref} - MK Fruit Panipat`, text: `Thank you ${booking.name},\n\nWe received your wedding fruit stall booking request.\n\n${bookingSummary(booking)}\n\nWe will confirm via call/WhatsApp within 24 hours.\n\nMK Fruit Panipat` }, status: "pending", attempts: 0, last_error: null, created_at: now, sent_at: null });
   if (NOTIFY_WEBHOOK_URL) records.push({ id: genId(), booking_id: booking.id, booking_ref: booking.ref, channel: "webhook", recipient: NOTIFY_WEBHOOK_URL, payload: { booking }, status: "pending", attempts: 0, last_error: null, created_at: now, sent_at: null });
   return records;
 }
@@ -382,4 +382,4 @@ app.get("/api/health", (req, res) => {
   res.json({ ok: true, db: dbReady ? "supabase" : "local", time: new Date().toISOString() });
 });
 
-app.listen(PORT, () => console.log(`MK Fruits Panipat API listening on port ${PORT} (db: ${dbReady ? "supabase" : "local"})`));
+app.listen(PORT, () => console.log(`MK Fruit Panipat API listening on port ${PORT} (db: ${dbReady ? "supabase" : "local"})`));

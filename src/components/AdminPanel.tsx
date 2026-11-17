@@ -36,7 +36,7 @@ function AdminBookingCard({
   const id = String(b.id || b.ref || "");
   const tel = `tel:${String(b.phone || "").replace(/\s/g, "")}`;
   const waNum = toWaNumber(b.phone || "");
-  const waText = encodeURIComponent(`Hi ${b.name}, regarding your MK Fruits wedding fruit stall booking ${b.ref || id} on ${b.date} (${b.time}) for ${b.guests} guests.`);
+  const waText = encodeURIComponent(`Hi ${b.name}, regarding your MK Fruit wedding fruit stall booking ${b.ref || id} on ${b.date} (${b.time}) for ${b.guests} guests.`);
   const waLink = waNum ? `https://wa.me/${waNum}?text=${waText}` : "";
 
   return (

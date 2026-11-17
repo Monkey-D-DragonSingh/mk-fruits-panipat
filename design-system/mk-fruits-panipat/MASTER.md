@@ -6,7 +6,7 @@
 
 ---
 
-**Project:** MK Fruits Panipat
+**Project:** MK Fruit Panipat
 **Generated:** 2026-11-10 14:25:23
 **Category:** Agriculture/Farm Tech
 **Active Theme:** THEME #1 (RESTORED) — Dark Charcoal Orchard + Vivid Fruit

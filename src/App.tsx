@@ -38,10 +38,10 @@ function Header({
   return (
     <header className={`site-header${navOpen ? " is-open" : ""}`} id="siteHeader">
       <div className="container header-top">
-        <a className="brand" href="#home" aria-label="MK Fruits Panipat — home">
+        <a className="brand" href="#home" aria-label="MK Fruit Panipat — home">
           <img className="brand-mark" src={brandLogo} alt="" aria-hidden="true" />
           <span className="brand-text">
-            MK Fruits <span className="brand-accent">Panipat</span>
+            MK Fruit <span className="brand-accent">Panipat</span>
           </span>
         </a>
         <div className="header-actions">
@@ -220,7 +220,7 @@ function Benefits() {
     <section className="section" id="benefits">
       <div className="container">
         <header className="section-head">
-          <p className="eyebrow">Why MK Fruits</p>
+          <p className="eyebrow">Why MK Fruit</p>
           <h2>Perfect for Wedding Celebrations</h2>
           <p className="section-sub">A fresh fruit stall that adds colour, taste, and a premium touch to your wedding.</p>
         </header>
@@ -569,7 +569,7 @@ function Footer() {
               <path d="M20 9v13" stroke="#141416" strokeWidth="2" strokeLinecap="round" />
             </svg>
             <span className="brand-text">
-              MK Fruits <span className="brand-accent">Panipat</span>
+              MK Fruit <span className="brand-accent">Panipat</span>
             </span>
           </a>
           <p>Wedding fruit stall service in Panipat — we set up fresh fruit stalls at your wedding with all our listed fruits included.</p>
@@ -596,7 +596,7 @@ function Footer() {
         </div>
       </div>
       <div className="container footer-bottom">
-        <p>&copy; {year} MK Fruits Panipat. All rights reserved.</p>
+        <p>&copy; {year} MK Fruit Panipat. All rights reserved.</p>
       </div>
     </footer>
   );

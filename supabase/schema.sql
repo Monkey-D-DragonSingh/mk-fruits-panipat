@@ -1,4 +1,4 @@
--- MK Fruits Panipat — Supabase database schema
+-- MK Fruit Panipat — Supabase database schema
 -- Table: bookings (wedding fruit stall booking requests)
 -- Designed to handle thousands of bookings with indexed lookups.
 
